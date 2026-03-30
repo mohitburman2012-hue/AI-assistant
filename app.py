@@ -5,29 +5,28 @@ st.title("AI Assistant")
 
 API_KEY = st.secrets["API_KEY"]
 
-# Create chat history
+# Store chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Input box
-user_input = st.text_input("Ask something")
-
-# Send button
-if st.button("Send"):
-    if user_input:
-
-        # Save user message
-        st.session_state.messages.append(("You", user_input))
-
-        # Get AI response
-        response = get_ai_response(user_input, API_KEY)
-
-        # Save AI message
-        st.session_state.messages.append(("AI", response))
-
-# Show chat history
-for sender, message in st.session_state.messages:
-    if sender == "You":
-        st.markdown(f"**🧑 You:** {message}")
+# Display previous messages
+for role, message in st.session_state.messages:
+    if role == "user":
+        st.chat_message("user").write(message)
     else:
-        st.markdown(f"**🤖 AI:** {message}")
+        st.chat_message("assistant").write(message)
+
+# Chat input (auto clears)
+prompt = st.chat_input("Ask something...")
+
+if prompt:
+    # Show user message
+    st.chat_message("user").write(prompt)
+    st.session_state.messages.append(("user", prompt))
+
+    # Get AI response
+    response = get_ai_response(prompt, API_KEY)
+
+    # Show AI response
+    st.chat_message("assistant").write(response)
+    st.session_state.messages.append(("assistant", response))
