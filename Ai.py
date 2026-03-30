@@ -1,6 +1,6 @@
 import requests
 
-def get_ai_response(prompt, API_KEY):
+def get_ai_response(messages, API_KEY):
 
     url = "https://api.groq.com/openai/v1/chat/completions"
 
@@ -11,9 +11,7 @@ def get_ai_response(prompt, API_KEY):
 
     data = {
         "model": "llama-3.3-70b-versatile",
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
+        "messages": messages
     }
 
     try:
