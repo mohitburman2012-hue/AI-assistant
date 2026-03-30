@@ -3,7 +3,7 @@ from Ai import get_ai_response
 
 st.title("AI Assistant")
 
-API_KEY = ""
+API_KEY = st.secrets["API_KEY"]
 
 user_input = st.text_input("Ask something")
 
